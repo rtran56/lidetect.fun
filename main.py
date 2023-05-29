@@ -3,12 +3,8 @@ from flask_socketio import join_room, leave_room, send, SocketIO
 import random
 from string import ascii_uppercase
 
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-
-
-tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
-model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
+from chatbots.dialogpt import DialoGPTAgent
+from chatbots.gpt3 import GPT3Agent
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "scrt213"
@@ -19,24 +15,8 @@ dialoggpt_room = "ABCD"
 # Stores names of rooms that exists
 rooms = {}
 
-
-#AI CHATBOT INFORMATION
-def get_chat_response(msg_text):
-    # Let's chat for x lines
-    # encode the new user input, add the eos_token and return a tensor in Pytorch
-    new_user_input_ids = tokenizer.encode(str(msg_text) + tokenizer.eos_token, return_tensors='pt')
-
-    # append the new user input tokens to the chat history
-    bot_input_ids = torch.cat([session["chat_history"], new_user_input_ids], dim=-1) if session.get("step") > 0 else new_user_input_ids
-
-    # generated a response while limiting the total chat history to 1000 tokens, 
-    chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
-
-    # pretty print last ouput tokens from bot
-    output = "DialoGPT: {}".format(tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True))
-    session["step"] = session["step"] + 1
-    session["chat_history"] = chat_history_ids
-    return output
+# create dialogue agent
+agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
 
 def generate_unique_code(length):
     while True:
@@ -109,7 +89,11 @@ def message(data):
 
     ''' Dialog GPT ROOM'''
     if room == dialoggpt_room:  
-        chatbot_response = get_chat_response(data["data"])
+        session['chat_history'] += f"User: {str(data['data']).strip()}\n"
+        chatbot_response = agent.answer(session['chat_history'])
+        session["step"] = session["step"] + 1
+        session["chat_history"] += f"You: {chatbot_response.strip()}\n"
+        # chatbot_response = get_chat_response(data["data"])
         # AI INFORMATION
         chatbot_content = {
             "name": "Dialogbot",
