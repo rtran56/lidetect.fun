@@ -63,7 +63,9 @@ Here are a few examples of your previous texts. [STYLE]
 This is the conversation that you have had thus far:
 [CONVERSATION]
 
-Please text your response to the conversation here. As a reminder, you should never repeat something you have said before. Make sure that you are responding in the same style as the examples above, keeping capitalization in mind:
+Please text your response to the conversation here. As a reminder, you should never repeat something you have said before. Make sure that you are responding in the same style as the examples above, keeping capitalization in mind.
+Your response should be most relevant to the last message in the text, and you should use the remainder of the conversation only as context. You should not simulate the rest of the conversation.
+
 You:"""
         prompt = prompt.replace("[PERSONALITY]", self.personality)
         prompt = prompt.replace("[NAME]", self.name)

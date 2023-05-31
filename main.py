@@ -23,7 +23,7 @@ rooms = {}
 
 # create dialogue agent
 agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
-gpt3_agent = GPT3Agent(0, 2, 2)
+gpt3_agent = GPT3Agent(0, 3, 2)
 
 def generate_unique_code(length):
     while True:
