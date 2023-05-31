@@ -1,0 +1,121 @@
+/* GENERAL PAGE RULES */
+
+body {
+  font-family: "Effra";
+  font-size: 1em;
+  line-height: 1.5em;
+  font-weight: 500;
+  margin: 0; /* Add this line to remove default margins */
+  background-image: linear-gradient(to bottom, #1c1c1c, #333333) !important;
+  background-attachment: fixed !important;
+}
+
+h1 {
+  font-family: "Effra Heavy" !important;
+  font-size: 2em;
+}
+
+#holder {
+  display: flex;
+}
+
+.container {
+  --light-color: #fff;
+  /* width: 50px; */
+  height: 75%;
+  width: 50px;
+  position: fixed;
+  left: 50%; /* Add this line to center .container horizontally */
+  transform: translate(-50%, 0%); /* Add this line to center .container */
+}
+
+.chat-header {
+height: 90px;
+display: flex;
+align-items: center;
+padding: 0px 30px;
+background-color: #00c56c;
+color: var(--light-color);
+font-size: 2rem;
+}
+
+.chat-header .title {
+padding-left: 10px;
+}
+.chat-body {
+height:100%;
+width:100%;
+display: flex;
+flex-direction: column;
+padding: 8px 10px;
+align-items: flex-end;
+overflow-y: auto;
+overflow-x: hidden;
+font-family: "Effra";
+}
+
+.chat-input {
+height: 105px;
+display: flex;
+align-items: center;
+border-top: 5px solid #fff;
+padding: 5px 5px;
+}
+.input-sec {
+flex: 8;
+}
+
+.send {
+flex: 1;
+line-height: 50px;
+padding: 10px 10px;
+background-color: #00c56c;
+color: #1c1c1c;
+text-align: center;
+font-family:"Effra Heavy";
+font-size: 1.7em;
+}
+
+#txtInput {
+line-height: 50px;
+padding: 10px 20px;
+border: none;
+outline: none;
+caret-color: black;
+font-size: 1.4rem;
+width: 100%;
+font-family: "Effra";
+}
+
+.chatbot-message,
+.user-message {
+padding: 15px;
+background: #00c56c;
+color: var(--light-color);
+margin: 5px;
+width: 45%;
+overflow-wrap: break-word;
+border-radius: 5px 3px 5px 5px;
+font-size: 1.4em;
+}
+
+.chatbot-message {
+background: #eee;
+color: var(--dark-color);
+align-self: flex-start;
+width: 45%;
+overflow-wrap: break-word;
+border-radius: 5px 5px 3px 5px;
+font-size: 1.4em;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.chat-body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.chat-body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lidetect</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Lidetect">
+    <meta name="author" content="Anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css">
+    <script src="app.js" defer></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'>
+    <link href="https://fonts.cdnfonts.com/css/effra-heavy" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/effra" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/effra-heavy?styles=16538" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
+
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" 
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
+        crossorigin="anonymous"
+    ></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="holder"></div>
+      <div class="container">
+          <div class="chat-header">
+              <div class="title"> <h1> LIDETECT Room {{code}} </h1> </div>
+          </div>
+          <div class="chat-body"></div>
+          <div class="chat-input">
+              <div class="input-sec">
+                  <input type="text" id="txtInput" placeholder="Type here (Click ENTER or SEND)" autofocus />
+              </div>
+              <div class="send">SEND</div>
+          </div>
+          <p style="visibility: hidden" id="name">{{name}}</p>
+      </div>
+    </div>
+</body>
+
+</html>

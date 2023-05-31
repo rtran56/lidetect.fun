@@ -6,7 +6,12 @@ from string import ascii_uppercase
 from chatbots.dialogpt import DialoGPTAgent
 from chatbots.gpt3 import GPT3Agent
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='', 
+    static_folder='web/static',
+    template_folder='web/templates'
+)
 app.config["SECRET_KEY"] = "scrt213"
 socketio = SocketIO(app)
 
@@ -72,7 +77,7 @@ def room():
     if room is None or session.get("name") is None or room not in rooms:
         return redirect(url_for("home"))
     
-    return render_template("room.html", code=room, messages=rooms[room]["messages"])
+    return render_template("room.html", code=room, name=session['name'], messages=rooms[room]["messages"])
 
 @socketio.on("message")
 def message(data):
@@ -115,7 +120,7 @@ def connect(auth):
         return
     
     join_room(room)
-    send({"name": name, "message": "has entered the room"}, to=room)
+    # send({"name": name, "message": "has entered the room"}, to=room)
     rooms[room]["members"] += 1
     print(f"{name} joined room {room}")
     
