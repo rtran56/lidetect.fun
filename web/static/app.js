@@ -74,6 +74,10 @@ const renderMessageEle = (txt, type) => {
   if (type !== username) {
     className = "chatbot-message";
   }
+  if (txt.includes("<SYSTEM>")) {
+    className = "system-message";
+  }
+  
   const messageEle = document.createElement("div");
   messageEle.innerHTML = txt;
   // const txtNode = document.createTextNode(txt);

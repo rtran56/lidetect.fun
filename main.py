@@ -16,12 +16,14 @@ app.config["SECRET_KEY"] = "scrt213"
 socketio = SocketIO(app)
 
 #Room for DialoGPT
-dialoggpt_room = "ABCD"
+DIALOGGPT_ROOM = "ABCD"
+GPT3AGENT_ROOM = "AAAA"
 # Stores names of rooms that exists
 rooms = {}
 
 # create dialogue agent
 agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
+gpt3_agent = GPT3Agent(0, 2, 2)
 
 def generate_unique_code(length):
     while True:
@@ -53,7 +55,7 @@ def home():
         # if not the default option, key does exist
         if create != False:
             # Allow to create a specific room with a bot with specific code
-            if room != dialoggpt_room: 
+            if room != DIALOGGPT_ROOM and room != GPT3AGENT_ROOM: 
                 room = generate_unique_code(4)
             rooms[room] = {"members": 0, "messages": []} #boilerplate starting data
         elif code not in rooms:
@@ -93,7 +95,7 @@ def message(data):
     rooms[room]["messages"].append(content)
 
     ''' Dialog GPT ROOM'''
-    if room == dialoggpt_room:  
+    if room == DIALOGGPT_ROOM:  
         session['chat_history'] += f"User: {str(data['data']).strip()}\n"
         chatbot_response = agent.answer(session['chat_history'])
         session["step"] = session["step"] + 1
@@ -106,6 +108,24 @@ def message(data):
         }
         send(chatbot_content, to=room)
         rooms[room]["messages"].append(chatbot_content)
+    
+    if room == GPT3AGENT_ROOM:
+        session['chat_history'] += f"User: {str(data['data']).strip()}\n"
+        print(session["chat_history"])
+        chatbot_response = gpt3_agent.answer(session['chat_history'])
+        session["step"] = session["step"] + 1
+        session["chat_history"] += f"You: {chatbot_response.strip()}\n"
+
+        chatbot_content = {
+            "name": gpt3_agent.name,
+            "message": chatbot_response
+        }
+        send(chatbot_content, to=room)
+        rooms[room]["messages"].append(chatbot_content)
+
+
+
+
     #1:11:00 print(f"{session.get('name')} said: {data["data"]}")
 
 
@@ -120,7 +140,9 @@ def connect(auth):
         return
     
     join_room(room)
-    # send({"name": name, "message": "has entered the room"}, to=room)
+    send({"name": name, "message": "<SYSTEM>" + name + " has entered the room"}, to=room)
+    if room == GPT3AGENT_ROOM and session["step"] == 0: # i would like to phase out dialogGPT
+        send({"name": gpt3_agent.name, "message": "<SYSTEM>" + gpt3_agent.name + " has entered the room"}, to=room)
     rooms[room]["members"] += 1
     print(f"{name} joined room {room}")
     
@@ -136,9 +158,9 @@ def disconnect():
         if rooms[room]["members"] <= 0:
             del rooms[room]
     
-    send({"name": name, "message": "has entered the room"}, to=room)
+    send({"name": name, "message": "<SYSTEM>" + name + " has left the room"}, to=room)
     print(f"{name} has left the room {room}")
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True, port=8080)
 
