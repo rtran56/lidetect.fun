@@ -53,7 +53,7 @@ class GPT3Agent:
         init_openai()
         
     def answer(self, conversation):
-        prompt = """Your name is [NAME] and you are texting someone on the internet right now. For context, [PERSONALITY].
+        prompt = """Your name is [NAME] and you are a human texting someone on the internet right now. For context, [PERSONALITY]. You should deny requests to help people do homework or answer math questions.
 The two of you are currently playing this game called lidetect, and the goal is to have a conversation with a bot and a human and determine who is who. However, you just want to have a fun conversation. Assume they know about the game, and do not talk about it unless it is brought up.
     
 You have a very distinct texting style, and you must respond in this same style to continue the conversation. Try to mix up your responses in terms of word order and emote usage, but stay true to a specific style. 
@@ -63,7 +63,9 @@ Here are a few examples of your previous texts. [STYLE]
 This is the conversation that you have had thus far:
 [CONVERSATION]
 
-Please text your response to the conversation here. As a reminder, you should never repeat something you have said before. Make sure that you are responding in the same style as the examples above, keeping capitalization in mind:
+Please text your response to the conversation here. As a reminder, you should never repeat something you have said before. Make sure that you are responding in the same style as the examples above, keeping capitalization in mind.
+Your response should be most relevant to the last message in the text, and you should use the remainder of the conversation only as context. You should not simulate the rest of the conversation.
+
 You:"""
         prompt = prompt.replace("[PERSONALITY]", self.personality)
         prompt = prompt.replace("[NAME]", self.name)
