@@ -3,6 +3,8 @@ from flask_socketio import join_room, leave_room, send, SocketIO
 import random
 from string import ascii_uppercase
 
+import numpy as np
+
 from chatbots.dialogpt import DialoGPTAgent
 from chatbots.gpt3 import GPT3Agent
 
@@ -21,6 +23,7 @@ GPT3AGENT_ROOM = "AAAA"
 # Stores names of rooms that exists
 rooms = {}
 player_queue = []
+gpt3_rooms = [GPT3AGENT_ROOM]
 
 # create dialogue agent
 agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
@@ -62,12 +65,19 @@ def home():
         # elif code not in rooms:
         #     return render_template("home.html", error="Room does not exist.", code=code, name=name)
         
-        if len(player_queue) == 0:
+        is_bot = np.random.choice([False, True])
+
+        if is_bot:
             room = generate_unique_code(4)
             rooms[room] = {"members": 0, "messages": []}
-            player_queue.append(room)
+            gpt3_rooms.append(room)
         else:
-            room = player_queue.pop()
+            if len(player_queue) == 0:
+                room = generate_unique_code(4)
+                rooms[room] = {"members": 0, "messages": []}
+                player_queue.append(room)
+            else:
+                room = player_queue.pop()
 
         # Stores name and room of the user. no logging in or account
         session["room"] = room
@@ -103,6 +113,7 @@ def message(data):
     rooms[room]["messages"].append(content)
 
     ''' Dialog GPT ROOM'''
+    # TODO: add DialogGPT rooms
     if room == DIALOGGPT_ROOM:  
         session['chat_history'] += f"User: {str(data['data']).strip()}\n"
         chatbot_response = agent.answer(session['chat_history'])
@@ -117,7 +128,7 @@ def message(data):
         send(chatbot_content, to=room)
         rooms[room]["messages"].append(chatbot_content)
     
-    if room == GPT3AGENT_ROOM:
+    if room in gpt3_rooms:
         session['chat_history'] += f"User: {str(data['data']).strip()}\n"
         print(session["chat_history"])
         chatbot_response = gpt3_agent.answer(session['chat_history'])
@@ -146,8 +157,9 @@ def connect(auth):
     join_room(room)
 
     send({"name": name, "message": "<SYSTEM>" + name + " has entered the room"}, to=room)
-    if room == GPT3AGENT_ROOM and session["step"] == 0: # i would like to phase out dialogGPT
+    if room in gpt3_rooms and session["step"] == 0: # i would like to phase out dialogGPT
         send({"name": gpt3_agent.name, "message": "<SYSTEM>" + gpt3_agent.name + " has entered the room"}, to=room)
+        rooms[room]['members'] += 1
     rooms[room]["members"] += 1
     # print(f"{name} joined room {room}")
     
