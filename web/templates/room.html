@@ -35,7 +35,10 @@
     <div id="holder"></div>
       <div class="container">
           <div class="chat-header">
-              <div class="title"> <h1> LIDETECT Room {{code}} </h1> </div>
+              <div class="title"> <h1> LIDETECT </h1> </div>
+          </div>
+          <div id="waiting-message" class="title" style="color: var(--light-color);">
+            <h1>Waiting for Second Player</h1>
           </div>
           <div class="chat-body"></div>
           <div class="chat-input">
@@ -45,6 +48,7 @@
               <div class="send">SEND</div>
           </div>
           <p style="visibility: hidden" id="name">{{name}}</p>
+          <p style="visibility: hidden" id="n_players">{{n_players}}</p>
       </div>
     </div>
 </body>

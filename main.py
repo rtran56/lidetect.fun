@@ -20,6 +20,7 @@ DIALOGGPT_ROOM = "ABCD"
 GPT3AGENT_ROOM = "AAAA"
 # Stores names of rooms that exists
 rooms = {}
+player_queue = []
 
 # create dialogue agent
 agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
@@ -34,32 +35,39 @@ def generate_unique_code(length):
         if code not in rooms:
             break
     return code
-    
+
 @app.route("/", methods=["POST", "GET"])
 def home():
     # clears the session if they go to the home page
     session.clear()
     if request.method == "POST":
         name = request.form.get("name")
-        code = request.form.get("code")
-        join = request.form.get("join", False)  #Get the value associated with them
-        create = request.form.get("create", False)
+        # code = request.form.get("code")
+        # join = request.form.get("join", False)  #Get the value associated with them
+        # create = request.form.get("create", False)
 
         if not name:
-            return render_template("home.html", error="Please provide a name.", code=code, name=name)
+            return render_template("home.html", error="Please provide a name.", name=name)
         
-        if join != False and not code:
-            return render_template("home.html", error="Please enter a room code.", code=code, name=name)
+        # if join != False and not code:
+        #     return render_template("home.html", error="Please enter a room code.", code=code, name=name)
         
-        room = code
-        # if not the default option, key does exist
-        if create != False:
-            # Allow to create a specific room with a bot with specific code
-            if room != DIALOGGPT_ROOM and room != GPT3AGENT_ROOM: 
-                room = generate_unique_code(4)
-            rooms[room] = {"members": 0, "messages": []} #boilerplate starting data
-        elif code not in rooms:
-            return render_template("home.html", error="Room does not exist.", code=code, name=name)
+        # room = code
+        # # if not the default option, key does exist
+        # if create != False:
+        #     # Allow to create a specific room with a bot with specific code
+        #     if room != DIALOGGPT_ROOM and room != GPT3AGENT_ROOM: 
+        #         room = generate_unique_code(4)
+        #     rooms[room] = {"members": 0, "messages": []} #boilerplate starting data
+        # elif code not in rooms:
+        #     return render_template("home.html", error="Room does not exist.", code=code, name=name)
+        
+        if len(player_queue) == 0:
+            room = generate_unique_code(4)
+            rooms[room] = {"members": 0, "messages": []}
+            player_queue.append(room)
+        else:
+            room = player_queue.pop()
 
         # Stores name and room of the user. no logging in or account
         session["room"] = room
@@ -79,7 +87,7 @@ def room():
     if room is None or session.get("name") is None or room not in rooms:
         return redirect(url_for("home"))
     
-    return render_template("room.html", code=room, name=session['name'], messages=rooms[room]["messages"])
+    return render_template("room.html", code=room, name=session['name'], n_players=rooms[room]['members'])
 
 @socketio.on("message")
 def message(data):
@@ -122,10 +130,6 @@ def message(data):
         }
         send(chatbot_content, to=room)
         rooms[room]["messages"].append(chatbot_content)
-
-
-
-
     #1:11:00 print(f"{session.get('name')} said: {data["data"]}")
 
 
@@ -140,11 +144,12 @@ def connect(auth):
         return
     
     join_room(room)
+
     send({"name": name, "message": "<SYSTEM>" + name + " has entered the room"}, to=room)
     if room == GPT3AGENT_ROOM and session["step"] == 0: # i would like to phase out dialogGPT
         send({"name": gpt3_agent.name, "message": "<SYSTEM>" + gpt3_agent.name + " has entered the room"}, to=room)
     rooms[room]["members"] += 1
-    print(f"{name} joined room {room}")
+    # print(f"{name} joined room {room}")
     
 @socketio.on("disconnect")
 def disconnect():
