@@ -3,13 +3,35 @@ var socketio = io();
 const chatBody = document.querySelector(".chat-body");
 const txtInput = document.querySelector("#txtInput");
 const send = document.querySelector(".send");
+<<<<<<< Updated upstream
+=======
+const finalGuessForm = document.querySelector('.final-guess-form');
+
+var chatBodyDisplay = null;
+if (chatBody != null){
+  chatBodyDisplay = chatBody.style.display;
+}
+
+var chatInputDivDisplay = null;
+if (chatInputDiv != null) {
+  chatInputDivDisplay = chatInputDiv.style.display;
+}
+// const chatInputDivDisplay = chatInputDiv.style.display;
+>>>>>>> Stashed changes
 
 // bit of a hack to get the user's name from render_template (must be a better way to do this?)
-const username = document.querySelector('#name').textContent;
+const username_field = document.querySelector('#name');
+var username = null;
+if (username_field != null) {
+  username = username_field.textContent;
+}
 
-send.addEventListener("click", () => renderUserMessage());
+if (send != null) {
+  send.addEventListener("click", () => renderUserMessage());
+}
 
 socketio.on("message", (data) => {
+<<<<<<< Updated upstream
   // createMessage(data.name, data.message);
   renderMessageEle(data.message, data.name);
 });
@@ -27,6 +49,28 @@ txtInput.addEventListener("keyup", (event) => {
     renderUserMessage();
   }
 });
+=======
+  var messageElems = data['messages'].map(message => renderMessage(message));
+  if (chatBody != null) {
+    chatBody.replaceChildren(...messageElems);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+  renderWaitingStatus(data['members'].length);
+  if (data.members.length == 2) {
+    renderTurn(data['next_turn']);
+  }
+
+  renderEndgame(data['game_over'])
+});
+
+if (txtInput != null) {
+  txtInput.addEventListener("keyup", (event) => {
+    if (event.keyCode === 13) {
+      renderUserMessage();
+    }
+  });
+}
+>>>>>>> Stashed changes
 
 function replaceAll(string, search, replace) {
   return string.split(search).join(replace);
@@ -53,6 +97,7 @@ const renderUserMessage = () => {
   socketio.emit("message", {data: userInput});
 };
 
+<<<<<<< Updated upstream
 const renderChatbotResponse = (userInput, history) => {
 
   fetch(`/ai_response/${userInput}/${history}`)
@@ -89,4 +134,10 @@ const renderMessageEle = (txt, type) => {
 
 
 // renderMessageEle("Hi you are going to be talking to a chatbot", "chatbot-message")
+=======
+socketio.on("redirect", (dest) => {
+  console.log(dest);
+  window.location.href = dest;
+});
+>>>>>>> Stashed changes
 
