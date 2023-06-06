@@ -49,7 +49,7 @@ def home():
             name = database.create_user(name, DEFAULT_ELO)
         
         # is_bot = np.random.choice([False, True])
-        is_bot = False
+        is_bot = True
 
         if is_bot:
             room = database.create_room(members=[], messages=[])
