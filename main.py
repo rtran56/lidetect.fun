@@ -46,7 +46,12 @@ for bot in bots.keys():
 def home():
     # clears the session if they go to the home page
     session.clear()
+    print("request = ", request.form)
     if request.method == "POST":
+        is_leaderboard = request.form.get("leaderboard")
+        print("is leaderboard = ", is_leaderboard)
+        if is_leaderboard is not None:
+            return redirect(url_for("leaderboard"))
         name = request.form.get("name")
         if not name:
             return render_template("home.html", error="Please provide a name.", name=name)
@@ -130,6 +135,15 @@ def add_guess(room, player, guess):
     destination = "endscreen"
     socketio.emit("redirect", destination, to=room)
     return True
+
+@app.route("/leaderboard", methods=['POST', 'GET'])
+def leaderboard():
+    if request.method == "POST":
+        return redirect(url_for("home"))
+        
+    users = database.get_users_sorted_elo()
+    print("users = ", users)
+    return render_template('leaderboard.html', users=users)
 
 @app.route("/room", methods=['POST', 'GET'])
 def room():

@@ -36,6 +36,9 @@ def create_user(name, elo, is_bot):
     })
     return user.inserted_id
 
+def get_users_sorted_elo():
+    return users_collection.find().sort('elo', -1)
+
 def get_user(name):
     user_data = users_collection.find_one({'_id': name})
     return User(user_data['_id'], user_data['elo'], user_data['is_bot']) if user_data else None
