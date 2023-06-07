@@ -17,7 +17,7 @@ def init_openai():
     # openai.api_type = 'azure'
     # openai.api_version = '2022-12-01' # this may change in the future
     # openai.api_key = os.getenv('OPENAI_API_KEY')
-    openai.api_key = '<OPENAI-KEY>'
+    openai.api_key = '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'
 
 MAX_ATTEMPTS = 5
 

@@ -15,6 +15,11 @@ h1 {
   font-size: 2em;
 }
 
+h3 {
+  font-family: "Effra Heavy" !important;
+  font-size: 1.4em;
+}
+
 #holder {
   display: flex;
 }

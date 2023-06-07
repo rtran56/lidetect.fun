@@ -29,7 +29,6 @@ const renderWaitingStatus = (game_started) => {
 renderWaitingStatus(false);
 
 const renderTurn = (next_turn) => {
-  console.log('Next turn:', next_turn);
   if (next_turn === username) {
     txtInput.value = '';
     txtInput.removeAttribute('disabled');
@@ -69,7 +68,6 @@ const renderMessage = (message) => {
   // const txtNode = document.createTextNode(txt);
   messageEle.classList.add(className);
 
-  console.log(messageEle)
   return messageEle
 } 
 

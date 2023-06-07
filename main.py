@@ -23,7 +23,7 @@ socketio = SocketIO(app)
 # DIALOGGPT_ROOM = "ABCD"
 # GPT3AGENT_ROOM = "AAAA"
 
-MAX_TURNS = 1
+MAX_TURNS = 3
 
 DEFAULT_ELO = 1200
 
@@ -39,7 +39,8 @@ bots = {
 
 # add gpt3 agent to our user database
 for bot in bots.keys():
-    database.create_user(bot, elo=DEFAULT_ELO, is_bot=True)
+    if database.get_user(bot) is None:
+        database.create_user(bot, elo=DEFAULT_ELO, is_bot=True)
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -47,16 +48,19 @@ def home():
     # clears the session if they go to the home page
     session.clear()
     if request.method == "POST":
+        is_leaderboard = request.form.get("leaderboard")
+        if is_leaderboard is not None:
+            return redirect(url_for("leaderboard"))
+
         name = request.form.get("name")
         if not name:
             return render_template("home.html", error="Please provide a name.", name=name)
         
         # add username to database if not already there
-        if not database.get_user(name):
+        if database.get_user(name) is None:
             name = database.create_user(name, DEFAULT_ELO, is_bot=False)
         
-        # is_bot = np.random.choice([False, True])
-        is_bot = True
+        is_bot = np.random.choice([False, True])
 
         if is_bot:
             first_player = random.choice([0, 1])
@@ -131,6 +135,14 @@ def add_guess(room, player, guess):
     socketio.emit("redirect", destination, to=room)
     return True
 
+@app.route("/leaderboard", methods=['POST', 'GET'])
+def leaderboard():
+    if request.method == "POST":
+        return redirect(url_for("home"))
+        
+    users = database.get_users()
+    return render_template('leaderboard.html', users=users)
+
 @app.route("/room", methods=['POST', 'GET'])
 def room():
     room = session.get("room")
@@ -143,7 +155,7 @@ def room():
         return render_template("room.html", name=name, game_over=False, guessed_correctly=False)
     elif request.method == 'POST':
         room = session.get("room")
-        name = request.form.get('name')
+        name = session.get('name')
 
         human = request.form.get('human', False)
         robot = request.form.get('robot', False)
@@ -311,11 +323,9 @@ def disconnect():
     # for now, don't have player leave the room!                                              #
     # we use this information in making guesses (plus, might want to keep this for posterity) #
     ###########################################################################################
-    pass
 
-    # room = session.get("room")
-    # name = session.get("name")
-    # leave_room(room)
+    room = session.get("room")
+    leave_room(room)
 
     # if database.get_room(room):
     #     members = database.get_room(room).members

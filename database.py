@@ -1,7 +1,7 @@
 from bson import ObjectId
 from pymongo import MongoClient
 
-MONGODB_KEY = '<MONGODB-KEY>'
+MONGODB_KEY = 'mongodb+srv://amirzur:S3KoEzfbmS4RyjMM@cs384.hixpjty.mongodb.net/'
 
 client = MongoClient(MONGODB_KEY)
 
@@ -38,6 +38,9 @@ def create_user(name, elo, is_bot):
 def get_user(name):
     user_data = users_collection.find_one({'_id': name})
     return User(user_data['_id'], user_data['elo'], user_data['is_bot']) if user_data else None
+
+def get_users():
+    return [User(u['_id'], u['elo'], u['is_bot']) for u in users_collection.find().sort('elo', -1) if not u['is_bot']]
 
 def update_user_feature(user_id, feature, updated_value):
     users_collection.update_one({'_id': user_id}, {'$set': {feature: updated_value}})
