@@ -46,10 +46,8 @@ for bot in bots.keys():
 def home():
     # clears the session if they go to the home page
     session.clear()
-    print("request = ", request.form)
     if request.method == "POST":
         is_leaderboard = request.form.get("leaderboard")
-        print("is leaderboard = ", is_leaderboard)
         if is_leaderboard is not None:
             return redirect(url_for("leaderboard"))
         name = request.form.get("name")
@@ -142,7 +140,6 @@ def leaderboard():
         return redirect(url_for("home"))
         
     users = database.get_users_sorted_elo()
-    print("users = ", users)
     return render_template('leaderboard.html', users=users)
 
 @app.route("/room", methods=['POST', 'GET'])
