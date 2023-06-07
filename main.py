@@ -59,7 +59,7 @@ def home():
         is_bot = True
 
         if is_bot:
-            first_player = np.random.choice([0, 1])
+            first_player = random.choice([0, 1])
             room = database.create_room(members=[], messages=[], first_player=first_player)
 
             bot = random.choice(list(bots.keys()))
@@ -76,7 +76,7 @@ def home():
             database.add_message(room, bot_intro_message)
         else:
             if len(player_queue) == 0:
-                first_player = np.random.choice([0, 1])
+                first_player = random.choice([0, 1])
                 room = database.create_room(members=[], messages=[], first_player=first_player)
                 player_queue.append(room)
             else:
