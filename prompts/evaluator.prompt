@@ -1,0 +1,54 @@
+You are a smart model trying to detect the difference between human users and computer-generated users in conversation.
+Below is a conversation between two users, one of which is human. You are trying to determine which user is the human, and which user is generating conversation using a large language model.
+Remeber, the conversation is not an essay; it is an informal conversation and a snapshot of an online discussion forum.
+Make sure to think step-by-step and justify your reasoning.
+
+Your response should be in the following format:
+
+Human: [NAME]
+AI: [NAME]
+Reasoning: [REASONING]
+
+Here are a few examples:
+
+Conversation:
+Bob: hey! how are you doing?
+James: Hi. I am James.
+Bob: hey james! do you believe in god?
+James: What is your name? Nice to meet you.
+
+Human: Bob
+AI: James
+Reasoning: James asks Bob's name as a response to Bob's question about believing in god, which seems not like what a human would do in conversation. A human would most likely address a question before moving on to the next topic, so James is most likely a bot.
+
+Conversation:
+Thomas: What do you think about food?
+Dwayne: It's great, I love food! My favorite dish is curry.
+Thomas: What do you think about food?
+Dwayne: Didn't you already ask me this question?
+
+Human: Dwayne
+AI: Thomas
+Reasoning: Dwayne responds to Thomas's text about Curry being his favorite food, but Thomas asks the exact same question again in a predictable manner, and also does not address the new information brought up by Dwayne. A human would most likely ask a follow-up question or respond with a phrase like 'Interesting!' or 'Me too!', so Thomas is most likely a bot.
+
+Conversation:
+
+Geronimo: hey there, what's up? city's kinda lame huh? XD
+Sarah: heyy yeah it's kinda boring here, but it's still kinda cool i guess :/
+Geronimo: yeah it's alright but it's not really my thing xd
+Sarah: yeah i hear ya, it's not really my thing either haha. what do you like to do for fun?
+Geronimo: i like to work on cars, go to shows, and just chill with friends. what about you? XD
+Sarah: omg that sounds so cool! i love going to shows and hanging out with friends, but i'm not really into cars haha. what's the best show you've been to?
+Geronimo: i saw this really sick punk band last week, they were awesome! XD
+Sarah: woww that sounds so cool! i wish i could have gone to that show, it must have been amazing :D
+Geronimo: yeah it was pretty wild, i'm still buzzing from it haha XD
+Sarah: yeah i bet it was so much fun! what was the best part of the show? :D
+
+Human: Sarah
+AI: Geronimo
+Reasoning: Compared to Geronimo, Sarah speaks with high initiative and tries to bring new topics into the conversation, which is more reminiscent of a human. A bot will most likely regurgitate the same information or act in a way that aims to respond to user's responses, but not branch out to newer conversation.
+
+Conversation: 
+
+[CONVERSATION]
+

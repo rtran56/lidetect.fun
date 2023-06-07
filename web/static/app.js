@@ -10,27 +10,34 @@ const chatBodyDisplay = chatBody.style.display;
 const chatInputDivDisplay = chatInputDiv.style.display;
 
 // bit of a hack to get the user's name from render_template (must be a better way to do this?)
-const username = document.querySelector('#name').textContent;
+const username = document.querySelector('#name').value;
 
 send.addEventListener("click", () => renderUserMessage());
 
-const renderWaitingStatus = (n_players) => {
-  if (n_players === 2) {
+const renderWaitingStatus = (game_started) => {
+  if (game_started) {
     txtInput.value = '';
     txtInput.removeAttribute('disabled');
+    send.removeAttribute('disabled');
   } else {
     txtInput.value = 'Waiting for second player to arrive.';
     txtInput.setAttribute('disabled', 'disabled');
+    send.setAttribute('disabled', 'disabled');
   }
 }
 
+renderWaitingStatus(false);
+
 const renderTurn = (next_turn) => {
+  console.log('Next turn:', next_turn);
   if (next_turn === username) {
     txtInput.value = '';
     txtInput.removeAttribute('disabled');
+    send.removeAttribute('disabled');
   } else {
     txtInput.value = 'Wait for the other player to respond.';
     txtInput.setAttribute('disabled', 'disabled');
+    send.setAttribute('disabled', 'disabled');
   }
 }
 
@@ -70,12 +77,12 @@ socketio.on("message", (data) => {
   var messageElems = data['messages'].map(message => renderMessage(message));
   chatBody.replaceChildren(...messageElems);
   chatBody.scrollTop = chatBody.scrollHeight;
-  renderWaitingStatus(data['members'].length);
+  renderWaitingStatus(data['game_started']);
   if (data.members.length == 2) {
     renderTurn(data['next_turn']);
   }
 
-  renderEndgame(data['game_over'])
+  renderEndgame(data['game_over']);
 });
 
 txtInput.addEventListener("keyup", (event) => {
@@ -89,6 +96,10 @@ function replaceAll(string, search, replace) {
 }
 
 const renderUserMessage = () => {
+  if (txtInput.getAttribute('disabled')) {
+    return;
+  }
+
   var userInput = txtInput.value;
   txtInput.value = "";
 

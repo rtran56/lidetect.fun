@@ -9,7 +9,7 @@
     <meta name="author" content="Anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="index.css">
-    <script src="app.js" defer></script>
+    <script src="app_end.js" defer></script>
 
     <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet'>
@@ -37,29 +37,46 @@
             <div class="chat-header">
                 <div class="title"> <h1> LIDETECT </h1> </div>
             </div>
-            {% if game_over %}
+            {% if not game_over %}
                 <div>
-                    {% if guessed_correctly %}
-                        <h1 style="color: var(--light-color);">Great job, you guessed correctly!</h1>
-                    {% else %}
-                        <h1 style="color: var(--light-color);">Oops, you guessed incorrectly! Better luck next time!</h1>
-                    {% endif %}
+                    <h1 style="color: var(--light-color);">Waiting for opponent's guess...</h1>
                 </div>
             {% else %}
-                <div class="chat-body"></div>
-                <div class="chat-input">
-                    <div class="input-sec">
-                        <input type="text" id="txtInput" placeholder="Type here (Click ENTER or SEND)" autofocus />
-                    </div>
-                    <div class="send">SEND</div>
+                <div>
+                    <h1 style="color: var(--light-color);">In the end game now</h1>
+                    <h1 style="color: var(--light-color);">{{name}}</h1>
+
+                    {% if guessed_correctly %}
+                        <h1 style="color: var(--light-color);">You guessed correctly!</h1>
+                    {% else %}
+                        <h1 style="color: var(--light-color);"> You guessed incorrectly! </h1>
+                    {% endif %}
+
+                    {% if opponent_guess %}
+                        <h1 style="color: var(--light-color);">Your opponent guessed correctly!</h1>
+                    {% else %}
+                        <h1 style="color: var(--light-color);">Your opponent guessed incorrectly!</h1>
+                    {% endif %}
+
+                    {% if won %}
+                        <h1 style="color: var(--light-color);">You won!</h1>
+                    {% endif %}
+
+                    {% if tie %}
+                        <h1 style="color: var(--light-color);">You tie.</h1>
+                    {% endif %}
+
+                    {% if not won and not tie %}
+                        <h1 style="color: var(--light-color);">You lose...</h1>
+                    {% endif %}
+
+                    <h1 style="color: var(--light-color);">{{prev_elo}} -> {{new_elo}}</h1>
+                    <form align="left" method="post" class="buttons"> 
+                        <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="gohome" class="gohome-btn">Go Home</button>
+                    </form>
                 </div>
-                <form align="center" method="post" class="buttons final-guess-form" style="display: none;"> 
-                    <p style="color: var(--light-color);">Who did you talk to?</p>
-                    <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="human" class="create-btn">Human</button>   
-                    <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="robot" class="create-btn">Robot</button>                
-                    <input style="display: none" id="name" name="name" value="{{name}}">{{name}}</input>
-                </form>
             {% endif %}
+            <p style="display: none" id="game-over">{{game_over}}</p>
       </div>
     </div>
 </body>
