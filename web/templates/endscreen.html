@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lidetect</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Lidetect">
+    <meta name="author" content="Anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css">
+    <script src="app_end.js" defer></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet'>
+    <link href="https://fonts.cdnfonts.com/css/effra-heavy" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/effra" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/effra-heavy?styles=16538" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
+
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" 
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
+        crossorigin="anonymous"
+    ></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="holder"></div>
+      <div class="container">
+            <div class="chat-header">
+                <div class="title"> <h1> LIDETECT </h1> </div>
+            </div>
+            {% if not game_over %}
+                <div>
+                    <h1 style="color: var(--light-color);">Waiting for opponent's guess...</h1>
+                </div>
+            {% else %}
+                <div>
+                    <!-- <h1 style="color: var(--light-color);">In the end game now</h1> -->
+                    <h1 style="color: var(--light-color);text-align:center">Username: {{name}}</h1>
+
+                    {% if guessed_correctly %}
+                        <h3 style="color: var(--light-color);text-align:center">You guessed correctly!</h1>
+                    {% else %}
+                        <h3 style="color: var(--light-color);text-align:center"> You guessed incorrectly! </h1>
+                    {% endif %}
+
+                    {% if opponent_guess %}
+                        <h3 style="color: var(--light-color);text-align:center">Your opponent guessed correctly!</h1>
+                    {% else %}
+                        <h3 style="color: var(--light-color);text-align:center">Your opponent guessed incorrectly!</h1>
+                    {% endif %}
+
+                    {% if won %}
+                        <h1 style="color: #00c56c;text-align:center">You won!</h1>
+                    {% endif %}
+
+                    {% if tie %}
+                        <h1 style="color: var(--light-color);text-align:center">You tie.</h1>
+                    {% endif %}
+
+                    {% if not won and not tie %}
+                        <h1 style="color: #fa1515;text-align:center">You lose...</h1>
+                    {% endif %}
+                    <br>
+                    <h1 style="color: var(--light-color);text-align:center">ELO Update:</h1>
+                    <h3 style="color: var(--light-color);text-align:center">{{prev_elo}} -> {{new_elo}}</h1>
+                    <form align="center" method="post" class="buttons"> 
+                        <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="gohome" class="gohome-btn">Go Home</button>
+                    </form>
+                </div>
+            {% endif %}
+            <p style="display: none" id="game-over">{{game_over}}</p>
+      </div>
+    </div>
+</body>
+
+</html>

@@ -34,17 +34,32 @@
 <body>
     <div id="holder"></div>
       <div class="container">
-          <div class="chat-header">
-              <div class="title"> <h1> LIDETECT Room {{code}} </h1> </div>
-          </div>
-          <div class="chat-body"></div>
-          <div class="chat-input">
-              <div class="input-sec">
-                  <input type="text" id="txtInput" placeholder="Type here (Click ENTER or SEND)" autofocus />
-              </div>
-              <div class="send">SEND</div>
-          </div>
-          <p style="visibility: hidden" id="name">{{name}}</p>
+            <div class="chat-header">
+                <div class="title"> <h1> LIDETECT </h1> </div>
+            </div>
+            {% if game_over %}
+                <div>
+                    {% if guessed_correctly %}
+                        <h1 style="color: var(--light-color);">Great job, you guessed correctly!</h1>
+                    {% else %}
+                        <h1 style="color: var(--light-color);">Oops, you guessed incorrectly! Better luck next time!</h1>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="chat-body"></div>
+                <div class="chat-input">
+                    <div class="input-sec">
+                        <input type="text" id="txtInput" placeholder="Type here (Click ENTER or SEND)" autofocus />
+                    </div>
+                    <div class="send">SEND</div>
+                </div>
+                <form align="center" method="post" class="buttons final-guess-form" style="display: none;"> 
+                    <p style="color: var(--light-color);">Who did you talk to?</p>
+                    <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="human" class="create-btn">Human</button>   
+                    <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="robot" class="create-btn">Robot</button>                
+                    <input style="display: none" id="name" name="name" value="{{name}}">{{name}}</input>
+                </form>
+            {% endif %}
       </div>
     </div>
 </body>
