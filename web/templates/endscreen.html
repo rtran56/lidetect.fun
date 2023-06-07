@@ -43,35 +43,36 @@
                 </div>
             {% else %}
                 <div>
-                    <h1 style="color: var(--light-color);">In the end game now</h1>
-                    <h1 style="color: var(--light-color);">{{name}}</h1>
+                    <!-- <h1 style="color: var(--light-color);">In the end game now</h1> -->
+                    <h1 style="color: var(--light-color);text-align:center">Username: {{name}}</h1>
 
                     {% if guessed_correctly %}
-                        <h1 style="color: var(--light-color);">You guessed correctly!</h1>
+                        <h3 style="color: var(--light-color);text-align:center">You guessed correctly!</h1>
                     {% else %}
-                        <h1 style="color: var(--light-color);"> You guessed incorrectly! </h1>
+                        <h3 style="color: var(--light-color);text-align:center"> You guessed incorrectly! </h1>
                     {% endif %}
 
                     {% if opponent_guess %}
-                        <h1 style="color: var(--light-color);">Your opponent guessed correctly!</h1>
+                        <h3 style="color: var(--light-color);text-align:center">Your opponent guessed correctly!</h1>
                     {% else %}
-                        <h1 style="color: var(--light-color);">Your opponent guessed incorrectly!</h1>
+                        <h3 style="color: var(--light-color);text-align:center">Your opponent guessed incorrectly!</h1>
                     {% endif %}
 
                     {% if won %}
-                        <h1 style="color: var(--light-color);">You won!</h1>
+                        <h1 style="color: #00c56c;text-align:center">You won!</h1>
                     {% endif %}
 
                     {% if tie %}
-                        <h1 style="color: var(--light-color);">You tie.</h1>
+                        <h1 style="color: var(--light-color);text-align:center">You tie.</h1>
                     {% endif %}
 
                     {% if not won and not tie %}
-                        <h1 style="color: var(--light-color);">You lose...</h1>
+                        <h1 style="color: #fa1515;text-align:center">You lose...</h1>
                     {% endif %}
-
-                    <h1 style="color: var(--light-color);">{{prev_elo}} -> {{new_elo}}</h1>
-                    <form align="left" method="post" class="buttons"> 
+                    <br>
+                    <h1 style="color: var(--light-color);text-align:center">ELO Update:</h1>
+                    <h3 style="color: var(--light-color);text-align:center">{{prev_elo}} -> {{new_elo}}</h1>
+                    <form align="center" method="post" class="buttons"> 
                         <button style="font-size: 1.5em;padding: 20px;border-radius: 10px;background-color: #00c56c;color: white;font-weight: bold;margin: 10px;cursor: pointer;transition: all 0.3s ease-in-out" type="submit" name="gohome" class="gohome-btn">Go Home</button>
                     </form>
                 </div>

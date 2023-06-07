@@ -1,7 +1,7 @@
 from bson import ObjectId
 from pymongo import MongoClient
 
-MONGODB_KEY = '<MONGODB-KEY>'
+MONGODB_KEY = "<MONGODB_KEY>"
 
 client = MongoClient(MONGODB_KEY)
 
