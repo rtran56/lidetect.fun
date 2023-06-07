@@ -10,7 +10,7 @@ const chatBodyDisplay = chatBody.style.display;
 const chatInputDivDisplay = chatInputDiv.style.display;
 
 // bit of a hack to get the user's name from render_template (must be a better way to do this?)
-const username = document.querySelector('#name').value;
+const username = document.querySelector('#name').textContent;
 
 send.addEventListener("click", () => renderUserMessage());
 
