@@ -1,4 +1,4 @@
-Eximport openai 
+import openai 
 import logging
 import os 
 import time
