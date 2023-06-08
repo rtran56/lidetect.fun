@@ -58,7 +58,7 @@
             <tr>
                 <td style="text-align:center;color:white;font-size:2rem">{{ loop.index }}</td>
                 <td style="text-align:center;color:white;font-size:2rem">{{ user.name }}</td>
-                <td style="text-align:center;color:white;font-size:2rem">{{ user.elo }}</td>
+                <td style="text-align:center;color:white;font-size:2rem">{{ user.elo | round}}</td>
             </tr>
         {% endfor %}
     </tbody>

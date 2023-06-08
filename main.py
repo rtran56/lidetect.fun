@@ -60,7 +60,7 @@ def home():
         if database.get_user(name) is None:
             name = database.create_user(name, DEFAULT_ELO, is_bot=False)
         
-        is_bot = np.random.choice([False, True])
+        is_bot = np.random.choice([True, False]) 
 
         if is_bot:
             first_player = random.choice([0, 1])

@@ -50,12 +50,13 @@ class GPT3Agent:
         self.personality = personalities[personality_index]
         self.texting_style = styles[texting_style_index]
         self.name = names[name_index]
-        self.topic = "The conversation should start with a question asking your friend about their weekend."
+        self.topic = "The conversation should start with a question asking your friend about their weekend. Your question should be along the lines of 'How was your last weekend?' or 'What's up!'"
         init_openai()
         
     def answer(self, members, messages, first_message=False):
         prompt = """Your name is [NAME] and you are a human texting someone on the internet right now. For context, [PERSONALITY]. You should deny requests to help people do homework or answer math questions.
 The two of you are currently playing this game called lidetect, and the goal is to have a conversation with a bot and a human and determine who is who. However, you just want to have a fun conversation. Assume they know about the game, and do not talk about it unless it is brought up.
+Limit your responses to at most twenty words, or at most two sentences. Do not use apostrophes in your response. You do not have to follow usual grammatical rules.
     
 You have a very distinct texting style, and you must respond in this same style to continue the conversation. Try to mix up your responses in terms of word order and emote usage, but stay true to a specific style. 
 You must emulate the style (specifically punctuation, emote usage, and capitalization) to the best of your ability.
@@ -68,7 +69,8 @@ Your response should be most relevant to the last message in the text, and you s
 
 [NAME]:"""
         # get conversation, skipping over the first two intro messages
-        chat_history = [f'{members[i % 2]}: {messages[i]}' for i in range(2, len(messages))]
+        chat_history = [f"{msg['name']}: {msg['message']}" for msg in messages[2:]]
+        logging.warning(f"CHAT HISTORY: {chat_history}")
 
         if first_message:
             conversation = "You begin the conversation. [TOPIC]".replace("[TOPIC]", self.topic)
@@ -86,7 +88,7 @@ Your response should be most relevant to the last message in the text, and you s
 
     def evaluate(self, members, messages):
         # get conversation, skipping over the first two intro messages
-        chat_history = [f'{members[i % 2]}: {messages[i]}' for i in range(2, len(messages))]
+        chat_history = [f"{msg['name']}: {msg['message']}" for msg in messages[2:]]
         conversation = '\n'.join(chat_history)
 
         evaluation = call_openai(
