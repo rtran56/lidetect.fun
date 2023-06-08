@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random
+import time 
 
 import database
 
@@ -34,15 +35,15 @@ gpt3_room_ids = []
 # agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
 # gpt3_agent = GPT3Agent(0, 3, 2)
 bots = {
-    'gordon': GPT3Agent(0, 0, 0),
-    'john': GPT3Agent(1, 1, 1),
-    'ryan': GPT3Agent(3, 3, 3),
-    'carmen': GPT3Agent(2, 2, 2),
-    'ria': GPT3Agent(6, 6, 3),
-    'amir': GPT3Agent(4, 4, 4),
-    'dan': GPT3Agent(5, 5, 0),
-    'mila': GPT3Agent(8, 8, 4),
-    'anson': GPT3Agent(16, 6, 5)
+    'bot000': GPT3Agent(0, 0, 0),
+    'bot111': GPT3Agent(1, 1, 1),
+    #'bot333': GPT3Agent(3, 3, 3),
+    'bot222': GPT3Agent(2, 2, 2),
+    'bot663': GPT3Agent(6, 6, 3),
+    #'bot444': GPT3Agent(4, 4, 4),
+    #'bot550': GPT3Agent(5, 5, 0),
+    #'bot884': GPT3Agent(8, 8, 4),
+    'bot1665': GPT3Agent(16, 6, 5)
 
 }
 
@@ -238,12 +239,15 @@ def message(data):
     send(game_info, to=room) 
 
     next_player = database.get_user(game_info['next_turn'])
+
+    # Add delay
+
     if next_player.is_bot and not game_info['game_over']:
         bot = bots[next_player.name]
 
         chatbot_response = bot.answer(game_info['members'], game_info['messages'])
         chatbot_content = {
-            "name": bot.name,
+            "name": next_player.name,
             "message": chatbot_response
         }
 
@@ -319,7 +323,7 @@ def connect(auth):
 
             chatbot_response = bot.answer(game_info['members'], game_info['messages'], first_message=True)
             chatbot_content = {
-                "name": bot.name,
+                "name": next_player.name,
                 "message": chatbot_response
             }
 
