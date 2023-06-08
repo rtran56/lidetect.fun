@@ -69,7 +69,7 @@ def home():
         if database.get_user(name) is None:
             name = database.create_user(name, DEFAULT_ELO, is_bot=False)
         
-        is_bot = np.random.choice([True]) 
+        is_bot = np.random.choice([False, True]) 
 
         if is_bot:
             first_player = random.choice([0, 1])
@@ -149,7 +149,7 @@ def leaderboard():
     if request.method == "POST":
         return redirect(url_for("home"))
         
-    users = database.get_users()
+    users = database.get_users_sorted_elo()
     return render_template('leaderboard.html', users=users)
 
 @app.route("/room", methods=['POST', 'GET'])

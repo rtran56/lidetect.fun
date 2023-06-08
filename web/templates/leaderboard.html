@@ -48,17 +48,27 @@
     <table id="leaderboard" align="center">
     <thead>
       <tr>
-        <th style="text-align:center;color:white;font-size:3rem">Rank </th>
-        <th style="text-align:center;color:white;font-size:3rem">Username</th>
-        <th style="text-align:center;color:white;font-size:3rem">ELO Score</th>
+        <th style="text-align:center;color:white;font-size:3rem;font-family:Effra Heavy">Rank </th>
+        <th style="text-align:center;color:white;font-size:3rem;font-family:Effra Heavy">Username</th>
+        <th style="text-align:center;color:white;font-size:3rem;font-family:Effra Heavy">ELO Score</th>
+        <th style="text-align:center;color:white;font-size:3rem;font-family:Effra Heavy">Bot</th>
       </tr>
     </thead>
     <tbody>
         {% for user in users %}
             <tr>
-                <td style="text-align:center;color:white;font-size:2rem">{{ loop.index }}</td>
-                <td style="text-align:center;color:white;font-size:2rem">{{ user.name }}</td>
-                <td style="text-align:center;color:white;font-size:2rem">{{ user.elo | round}}</td>
+                {% if not user.is_bot %}
+                <td style="text-align:center;color:white;font-size:2rem;font-family:Effra Heavy">{{ loop.index }}</td>
+                <td style="text-align:center;color:white;font-size:2rem;font-family:Effra">{{ user._id }}</td>
+                <td style="text-align:center;color:white;font-size:2rem;font-family:Effra">{{ user.elo | round}}</td>
+                <td style="text-align:center;color:white;font-size:2rem;font-family:Effra">{{user.is_bot}}</td>
+                {% else %}
+                <td style="text-align:center;color:#00c56c;font-size:2rem;font-family:Effra Heavy">{{ loop.index }}</td>
+                <td style="text-align:center;color:#00c56c;font-size:2rem;font-family:Effra">{{ user._id }}</td>
+                <td style="text-align:center;color:#00c56c;font-size:2rem;font-family:Effra">{{ user.elo | round}}</td>
+                <td style="text-align:center;color:#00c56c;font-size:2rem;font-family:Effra">{{user.is_bot}}</td>
+                {% endif %}
+
             </tr>
         {% endfor %}
     </tbody>
