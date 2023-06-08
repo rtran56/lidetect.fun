@@ -34,7 +34,16 @@ gpt3_room_ids = []
 # agent = DialoGPTAgent() # GPT3Agent(0, 0, 0)
 # gpt3_agent = GPT3Agent(0, 3, 2)
 bots = {
-    'gordon': GPT3Agent(0, 3, 2)
+    'gordon': GPT3Agent(0, 0, 0),
+    'john': GPT3Agent(1, 1, 1),
+    'ryan': GPT3Agent(3, 3, 3),
+    'carmen': GPT3Agent(2, 2, 2),
+    'ria': GPT3Agent(6, 6, 3),
+    'amir': GPT3Agent(4, 4, 4),
+    'dan': GPT3Agent(5, 5, 0),
+    'mila': GPT3Agent(8, 8, 4),
+    'anson': GPT3Agent(16, 6, 5)
+
 }
 
 # add gpt3 agent to our user database
@@ -60,7 +69,7 @@ def home():
         if database.get_user(name) is None:
             name = database.create_user(name, DEFAULT_ELO, is_bot=False)
         
-        is_bot = np.random.choice([True, False]) 
+        is_bot = np.random.choice([True]) 
 
         if is_bot:
             first_player = random.choice([0, 1])
