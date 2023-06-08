@@ -43,7 +43,7 @@ bots = {
     #'bot444': GPT3Agent(4, 4, 4),
     #'bot550': GPT3Agent(5, 5, 0),
     #'bot884': GPT3Agent(8, 8, 4),
-    'bot1665': GPT3Agent(16, 6, 5)
+    'bot1665': GPT3Agent(16, 6, 6)
 
 }
 
