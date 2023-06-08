@@ -1,4 +1,4 @@
-import openai 
+Eximport openai 
 import logging
 import os 
 import time
@@ -25,7 +25,7 @@ def call_openai(prompt, log=False):
     sleep = 1.0
     for i in range(MAX_ATTEMPTS):
         try:
-            response = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=max_tokens, temperature=0)
+            response = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=max_tokens, temperature=0.7)
             text = response['choices'][0]['text'].replace('\n', '').replace(' .', '.').strip()
             return text
             break
