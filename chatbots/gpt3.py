@@ -69,7 +69,7 @@ Your response should be most relevant to the last message in the text, and you s
 
 [NAME]:"""
         # get conversation, skipping over the first two intro messages
-        chat_history = [f"{msg['name']}: {msg['message']}" for msg in messages[2:]]
+        chat_history = [f"You: {msg['message']}" if msg['name'].lower() == self.name.lower() else f"Friend: {msg['message']}" for msg in messages[2:]]
         logging.warning(f"CHAT HISTORY: {chat_history}")
 
         if first_message:
@@ -83,6 +83,9 @@ Your response should be most relevant to the last message in the text, and you s
         prompt = prompt.replace("[CONVERSATION]", conversation)
         prompt = prompt.replace("[STYLE]", self.texting_style)
         prompt = call_openai(prompt)
+
+        # Add delay
+        time.sleep(max(1, np.random.normal(3 + len(chat_history)/5, 1.1)))
         
         return prompt
 

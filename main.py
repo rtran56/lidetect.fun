@@ -84,7 +84,7 @@ def home():
             # add bot intro message to game room
             bot_intro_message = {
                 "name": '<SYSTEM>', 
-                "message": bot + " has entered the room"
+                "message": "A user has entered the room"
             }
             database.add_message(room, bot_intro_message)
         else:
@@ -304,7 +304,7 @@ def connect(auth):
 
     intro_message = {
         "name": '<SYSTEM>', 
-        "message": name + " has entered the room"
+        "message":"A user has entered the room"
     }
     database.add_message(room, intro_message)
 
