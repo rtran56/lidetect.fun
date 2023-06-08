@@ -245,7 +245,7 @@ def message(data):
     if next_player.is_bot and not game_info['game_over']:
         bot = bots[next_player.name]
 
-        chatbot_response = bot.answer(game_info['members'], game_info['messages'])
+        chatbot_response = bot.answer(game_info['members'], game_info['messages'], next_player.name)
         chatbot_content = {
             "name": next_player.name,
             "message": chatbot_response
@@ -321,7 +321,7 @@ def connect(auth):
         if next_player.is_bot:
             bot = bots[next_player.name]
 
-            chatbot_response = bot.answer(game_info['members'], game_info['messages'], first_message=True)
+            chatbot_response = bot.answer(game_info['members'], game_info['messages'], next_player.name, first_message=True)
             chatbot_content = {
                 "name": next_player.name,
                 "message": chatbot_response
