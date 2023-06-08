@@ -50,7 +50,7 @@ const renderEndgame = (game_over) => {
 const renderMessage = (message) => {
   let name = message.name;
   let txt = message.message;
-  if (txt.length == 0) {
+  if (txt.length === 0) {
     return;
   }
 
