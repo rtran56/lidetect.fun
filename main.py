@@ -70,7 +70,8 @@ def home():
         if database.get_user(name) is None:
             name = database.create_user(name, DEFAULT_ELO, is_bot=False)
         
-        is_bot = np.random.choice([False, True]) 
+        is_bot = True
+        #is_bot = np.random.choice([False, True]) 
 
         if is_bot:
             first_player = random.choice([0, 1])
@@ -238,9 +239,9 @@ def message(data):
     game_info = get_game_info(room)
     send(game_info, to=room) 
 
-    next_player = database.get_user(game_info['next_turn'])
 
-    # Add delay
+    next_player = database.get_user(game_info['next_turn'])
+    # add delay
 
     if next_player.is_bot and not game_info['game_over']:
         bot = bots[next_player.name]
@@ -250,7 +251,10 @@ def message(data):
             "name": next_player.name,
             "message": chatbot_response
         }
-
+        
+        # Add delay (average letter per minutes is 40)
+        socketio.sleep(random.randint(3,6) + (len(chatbot_response) / 25))
+        
         database.add_message(room, chatbot_content)
         game_info = get_game_info(room)
         send(game_info, to=room)
@@ -326,6 +330,8 @@ def connect(auth):
                 "name": next_player.name,
                 "message": chatbot_response
             }
+
+            socketio.sleep(random.randint(3,6) + (len(chatbot_response) / 25))
 
             database.add_message(room, chatbot_content)
             send(get_game_info(room), to=room)
