@@ -1,43 +1,4 @@
-# chat_interface
+# lidetect.fun
 
-Chat interface that allows a user (person b) to:
+A simple turing test elo-based game. Chat interface that allows a user to converse with either a bot or a human player, and guess at which the other agent is. 
 
-(a) Talk to a person a who creates the room
-
-(b) Talk to a chatbot (DialoGPT)
-
-Preliminary: 
-pip install requirements.txt
-
-How to activate option A:
-
-Activate the Server:
-1. Run 'python main.py' in terminal.
-2. Click on the url you are given in the terminal. 
-3. Fill in name.
-4. Click "Create Room Button"
-5. Note the Room code of the site you are taken to.
-
-Chat:
-1. Open incognito tab and go to the terminal url site.
-2. Fill in a second imaginary name.
-3. Fill in name of room from the "Activate the Server" step. 
-4. Click on "Join Room" Button.
-
-You can now chat!
-
-How to activate option B:
-
-Activate the Server:
-1. Run 'python main.py' in terminal.
-2. Click on the url you are given in the terminal. 
-3. Fill in name.
-4. Fill in: "ABCD" for DialoGPT. 
-5. Click "Create Room Button"
-6. Note the Room code of the site you are taken to.
-
-Chat:
-1. Open incognito tab and go to the terminal url site.
-2. Fill in a second imaginary name.
-3. Fill in name of room from the "Activate the Server" step. 
-4. Click on "Join Room" Button.
